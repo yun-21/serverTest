@@ -15,7 +15,7 @@ const fileUtils = {
   getFilePath: function(url){
     let filePath;
     if(url === "/"){
-      filePath = "./public/index.html";
+      filePath = "./public/b.html";
     }
     else{
       filePath = "./public" + url;
