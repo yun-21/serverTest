@@ -1,11 +1,27 @@
 const http = require('http');
-
+const fs = require('fs');
+const qs = require('querystring');
 const server = http.createServer((req,res)=>{
-    if(req.method==='GET'){
+    if(req.method==='GET'&&req.url==='/'){
+        const test = fs.readFileSync('./public/indexTest.html','utf-8')
         res.statusCode=200;
         res.setHeader('Content-Type','text/html; charset=utf-8')
-        res.write('hi')
+        res.write(test)
         res.end()
+    }
+    else if(req.method==='POST'){
+        if(req.url==='/test'){
+            res.statusCode=200;
+            res.setHeader('Content-Type','text/html; charset=utf-8')
+            let body = "";
+            req.on('data',(data)=>{
+                body += data
+            })
+            req.end('end',()=>{
+                const test = qs.parse(body)
+                console.log(test)
+            })
+        }
     }
 });
 
@@ -15,6 +31,6 @@ server.listen(port,(err)=>{
         console.error(err);
     }
     else{
-        console.log("localhost:8080")
+        console.log("http://localhost:8080")
     }
 });
